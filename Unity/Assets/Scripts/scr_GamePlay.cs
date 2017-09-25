@@ -14,21 +14,30 @@ public class scr_GamePlay : MonoBehaviour
     [Header("UI Stuff")]
     public Text codeText;
     public Text resultText;
-
-
+    public Text scoreText;
+    public int score;
 
     #region Buttons & Sizzle
 
-    public void OrangeButton() {
-        options[0].picked = true;
-    }
-
-    public void BlueButton() {
+    public void OrangeButton()
+    {
         options[1].picked = true;
+        CheckPerson(peopleToJudge[personBeingJudged]);
+
     }
 
-    public void DiscardButton() {
+    public void BlueButton()
+    {
+        options[0].picked = true;
+        CheckPerson(peopleToJudge[personBeingJudged]);
+
+    }
+
+    public void DiscardButton()
+    {
         options[2].picked = true;
+        CheckPerson(peopleToJudge[personBeingJudged]);
+
     }
     #endregion
 
@@ -38,8 +47,9 @@ public class scr_GamePlay : MonoBehaviour
         codeToCheck = peopleToJudge[personBeingJudged].code;
         print("NEW PERSON: " + makeString(codeToCheck));
         codeText.text = makeString(codeToCheck);
+        scoreText.text = score.ToString();
     }
-
+    /*
     public void Update()
     {
         foreach (cls_Option opt in options)
@@ -52,9 +62,9 @@ public class scr_GamePlay : MonoBehaviour
                 else
                     print("Game Has Ended");
             }
-            opt.picked = false;
         }
     }
+    */
 
     public void NextPerson()
     {
@@ -80,12 +90,22 @@ public class scr_GamePlay : MonoBehaviour
             {
                 print("Right Answer was " + opt.optionName);
                 resultText.text = "The correct answer was " + opt.optionName;
+                if (opt.picked)
+                {
+                    score++;
+                    opt.picked = false;
+                }
+                print("Score is now  " + score);
+                scoreText.text = score.ToString();
+
                 NextPerson();
                 break;
             }
             else
                 print(opt.optionName + " was wrong");
+
         }
+        scoreText.text = score.ToString();
     }
 
     public int compareLists(List<int> _listA, List<int> _listB)
