@@ -41,6 +41,11 @@ public class scr_GamePlay : MonoBehaviour
     }
     #endregion
 
+    public void Awake() {
+        ClearPeople();
+        GeneratePeople();
+    }
+
     public void Start()
     {
         print("GameStart");
@@ -132,12 +137,31 @@ public class scr_GamePlay : MonoBehaviour
 
         return sum;
     }
+
+    public void ClearPeople() {
+        peopleToJudge.Clear();
+    }
+
+    public void GeneratePeople() {
+        for (int i = 0; i < 50; i++) {
+            List<int> tempCode = new List<int>();
+
+            for (int j = 0; j < 3; j++)
+                tempCode.Add(Random.Range(1, 9));
+
+            peopleToJudge.Add(new cls_Person(tempCode));
+        }
+    }
 }
 
 [System.Serializable]
 public class cls_Person
 {
     public List<int> code;
+
+    public cls_Person(List<int> _code) {
+        code = _code;
+    }
 }
 
 [System.Serializable]
