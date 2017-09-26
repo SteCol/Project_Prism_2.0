@@ -51,25 +51,10 @@ public class scr_GamePlay : MonoBehaviour
         print("GameStart");
         codeToCheck = peopleToJudge[personBeingJudged].code;
         print("NEW PERSON: " + makeString(codeToCheck));
+        DrawCode(codeToCheck);
         codeText.text = makeString(codeToCheck);
         scoreText.text = score.ToString();
     }
-    /*
-    public void Update()
-    {
-        foreach (cls_Option opt in options)
-        {
-            if (opt.picked)
-            {
-                print("Option " + opt.optionName + " WAS PICKED");
-                if (personBeingJudged < peopleToJudge.Count)
-                    CheckPerson(peopleToJudge[personBeingJudged]);
-                else
-                    print("Game Has Ended");
-            }
-        }
-    }
-    */
 
     public void NextPerson()
     {
@@ -79,6 +64,7 @@ public class scr_GamePlay : MonoBehaviour
             codeToCheck.Clear();
             codeToCheck = peopleToJudge[personBeingJudged].code;
             print("NEW PERSON: " + makeString(codeToCheck));
+            DrawCode(codeToCheck);
             codeText.text = makeString(codeToCheck);
         }
         else
@@ -150,6 +136,18 @@ public class scr_GamePlay : MonoBehaviour
                 tempCode.Add(Random.Range(1, 9));
 
             peopleToJudge.Add(new cls_Person(tempCode));
+        }
+    }
+
+    public void DrawCode(List<int> _code) {
+        foreach (Transform t in _Storage.Storage().symbolPanel.GetComponentInChildren<Transform>()) {
+            Destroy(t.gameObject);
+        }
+
+        foreach (int i in _code) {
+            GameObject symbolClone = Instantiate(_Storage.Storage().imagePrefab, _Storage.Storage().symbolPanel.transform);
+            symbolClone.GetComponentInChildren<Image>().sprite = _Storage.GetSymbols(i);
+
         }
     }
 }
