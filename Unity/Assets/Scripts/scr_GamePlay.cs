@@ -28,12 +28,20 @@ public class scr_GamePlay : MonoBehaviour
     public void OrangeButton()
     {
         options[1].picked = true;
+
+        scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
+        animCont.SetSprite(6, animCont.sprites[1]);
+
         CheckPerson(peopleToJudge[personBeingJudged]);
     }
 
     public void BlueButton()
     {
         options[0].picked = true;
+
+        scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
+        animCont.SetSprite(6, animCont.sprites[2]);
+
         CheckPerson(peopleToJudge[personBeingJudged]);
 
     }
@@ -42,6 +50,10 @@ public class scr_GamePlay : MonoBehaviour
     {
         //options[2].picked = true;
         resultText.text = "DISCARDED";
+
+        scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
+        animCont.SetSprite(6, animCont.sprites[3]);
+
         CheckPerson(peopleToJudge[personBeingJudged]);
     }
     #endregion
@@ -79,6 +91,11 @@ public class scr_GamePlay : MonoBehaviour
         resultText.text = "";
 
         GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>().Pulse();
+        yield return new WaitForEndOfFrame();
+
+        DrawCode(new List<int>());
+
+        yield return new WaitUntil(() => GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>().cont == true);
 
         if (personBeingJudged < peopleToJudge.Count)
         {
@@ -93,8 +110,10 @@ public class scr_GamePlay : MonoBehaviour
             print("Game End");
 
         yield return new WaitUntil(() => cont == true);
-        cont = false;
 
+        //yield return new WaitForSeconds(waitBetweenSteps);
+
+        cont = false;
 
         yield return new WaitForSeconds(waitBetweenSteps);
         StartCoroutine(iGameLoop());
@@ -119,10 +138,14 @@ public class scr_GamePlay : MonoBehaviour
 
     public void CheckPerson(cls_Person _person)
     {
+        scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
+
         resultText.text = "";
 
         foreach (cls_Option opt in options)
         {
+            //animCont.SetSprite(6, animCont.sprites[3]);
+
             print("Checking If " + opt.optionName + " is Correct");
             if (compareLists(opt.mustContain, codeToCheck) == opt.mustContain.Count && compareLists(opt.cantContain, codeToCheck) == 0)
             {
@@ -133,6 +156,7 @@ public class scr_GamePlay : MonoBehaviour
                 {
                     score++;
                     opt.picked = false;
+                    //animCont.SetSprite(6, opt.sprite);
                 }
 
                 break;
@@ -245,6 +269,7 @@ public class cls_Person
 public class cls_Option
 {
     public string optionName;
+    public Sprite sprite;
     public bool picked;
     public List<cls_Symbol> mustContain;
     //public List<cls_Symbol> canContain;
