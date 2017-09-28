@@ -10,6 +10,8 @@ public class scr_GamePlay : MonoBehaviour
     public int personBeingJudged;
     public List<int> codeToCheck;
     public List<cls_Person> peopleToJudge;
+    public string seed;
+    public System.Random pseudoRandom;
 
     [Header("UI Stuff")]
     public Text codeText;
@@ -23,7 +25,6 @@ public class scr_GamePlay : MonoBehaviour
     {
         options[1].picked = true;
         CheckPerson(peopleToJudge[personBeingJudged]);
-
     }
 
     public void BlueButton()
@@ -35,13 +36,21 @@ public class scr_GamePlay : MonoBehaviour
 
     public void DiscardButton()
     {
-        options[2].picked = true;
+        //options[2].picked = true;
+        resultText.text = "DISCARDED";
         CheckPerson(peopleToJudge[personBeingJudged]);
-
     }
     #endregion
 
-    public void Awake() {
+    public void Awake()
+    {
+        pseudoRandom = new System.Random(seed.GetHashCode());
+
+        if (seed == "")
+        {
+            seed = "Stef";
+        }
+
         ClearPeople();
         GeneratePeople();
     }
@@ -81,36 +90,61 @@ public class scr_GamePlay : MonoBehaviour
             {
                 print("Right Answer was " + opt.optionName);
                 resultText.text = "The correct answer was " + opt.optionName;
+
                 if (opt.picked)
                 {
                     score++;
                     opt.picked = false;
                 }
-                print("Score is now  " + score);
-                scoreText.text = score.ToString();
 
-                NextPerson();
                 break;
             }
             else
+            {
+                opt.picked = false;
                 print(opt.optionName + " was wrong");
-
+            }
         }
+
+        print("Score is now  " + score);
         scoreText.text = score.ToString();
+        NextPerson();
     }
 
-    public int compareLists(List<int> _listA, List<int> _listB)
+    public int compareLists(List<cls_Symbol> _listA, List<int> _listB)
     {
         int match = 0;
+        List<int> tempList = new List<int>();
 
-        print("Compairing " + makeString(_listA) + " to " + makeString(_listB));
+        foreach (cls_Symbol s in _listA) {
+            tempList.Add(s.num);
+        }
 
-        foreach (int i in _listA)
-            foreach (int j in _listB)
-                if (i == j)
-                    match++;
+        print("Compairing " + makeString(tempList) + " to " + makeString(_listB));
 
+        //foreach (int i in _listA)
+        //    foreach (int j in _listB)
+        //        if (i == j)
+        //            match++;
+
+        for (int i = 0; i < _listA.Count; i++)
+            for (int j = 0; j < _listB.Count; j++)
+                if (tempList[i] == _listB[j])
+                {
+                    print("FOUND " + tempList[i]);
+                    _listA[i].check = true;
+                }
+
+
+        foreach (cls_Symbol s in _listA)
+            if (s.check)
+            {
+                match++;
+                s.check = false;
+            }
         print("Matches" + match);
+
+
         return match;
     }
 
@@ -124,30 +158,43 @@ public class scr_GamePlay : MonoBehaviour
         return sum;
     }
 
-    public void ClearPeople() {
+    public void ClearPeople()
+    {
         peopleToJudge.Clear();
     }
 
-    public void GeneratePeople() {
-        for (int i = 0; i < 50; i++) {
+    public void GeneratePeople()
+    {
+        for (int i = 0; i < 50; i++)
+        {
+            int answer = Random.Range(0,2);
+            print("Generated " + i + " " + answer + ".");
             List<int> tempCode = new List<int>();
 
-            for (int j = 0; j < 3; j++)
-                tempCode.Add(Random.Range(1, 9));
+            for (int j = 0; j < 6; j++)
+            {
+                if (answer == 0)
+                tempCode.Add(pseudoRandom.Next(1, 6));
+
+                if (answer == 1)
+                    tempCode.Add(pseudoRandom.Next(4, 10));
+            }
 
             peopleToJudge.Add(new cls_Person(tempCode));
         }
     }
 
-    public void DrawCode(List<int> _code) {
-        foreach (Transform t in _Storage.Storage().symbolPanel.GetComponentInChildren<Transform>()) {
+    public void DrawCode(List<int> _code)
+    {
+        foreach (Transform t in _Storage.Storage().symbolPanel.GetComponentInChildren<Transform>())
+        {
             Destroy(t.gameObject);
         }
 
-        foreach (int i in _code) {
+        foreach (int i in _code)
+        {
             GameObject symbolClone = Instantiate(_Storage.Storage().imagePrefab, _Storage.Storage().symbolPanel.transform);
-            symbolClone.GetComponentInChildren<Image>().sprite = _Storage.GetSymbols(i);
-
+            symbolClone.GetComponentInChildren<Image>().sprite = _Storage.GetSymbols(i-1);
         }
     }
 }
@@ -157,7 +204,8 @@ public class cls_Person
 {
     public List<int> code;
 
-    public cls_Person(List<int> _code) {
+    public cls_Person(List<int> _code)
+    {
         code = _code;
     }
 }
@@ -167,7 +215,13 @@ public class cls_Option
 {
     public string optionName;
     public bool picked;
-    public List<int> mustContain;
-    public List<int> canContain;
-    public List<int> cantContain;
+    public List<cls_Symbol> mustContain;
+    //public List<cls_Symbol> canContain;
+    public List<cls_Symbol> cantContain;
+}
+
+[System.Serializable]
+public class cls_Symbol {
+    public int num;
+    public bool check;
 }

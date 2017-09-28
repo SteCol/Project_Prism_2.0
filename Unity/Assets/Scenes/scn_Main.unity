@@ -287,59 +287,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 137940637}
---- !u!1 &176240351
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 1172239141345516, guid: 527e6bfdce42b3f4a8d91e60c3bd7cca,
-    type: 2}
-  m_PrefabInternal: {fileID: 1606252338}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1612947785}
-  - component: {fileID: 176240353}
-  - component: {fileID: 176240352}
-  m_Layer: 5
-  m_Name: Image
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &176240352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114328613028773186, guid: 527e6bfdce42b3f4a8d91e60c3bd7cca,
-    type: 2}
-  m_PrefabInternal: {fileID: 1606252338}
-  m_GameObject: {fileID: 176240351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!222 &176240353
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 222925915626968362, guid: 527e6bfdce42b3f4a8d91e60c3bd7cca,
-    type: 2}
-  m_PrefabInternal: {fileID: 1606252338}
-  m_GameObject: {fileID: 176240351}
 --- !u!1 &212643333
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,19 +455,36 @@ MonoBehaviour:
   options:
   - optionName: Blue
     picked: 0
-    mustContain: 010000000200000003000000
-    canContain: 040000000500000006000000
-    cantContain: 070000000800000009000000
+    mustContain:
+    - num: 1
+      check: 0
+    - num: 2
+      check: 0
+    - num: 3
+      check: 0
+    cantContain:
+    - num: 7
+      check: 0
+    - num: 8
+      check: 0
+    - num: 9
+      check: 0
   - optionName: Orange
     picked: 0
-    mustContain: 090000000800000007000000
-    canContain: 060000000500000004000000
-    cantContain: 030000000200000001000000
-  - optionName: Discard
-    picked: 0
-    mustContain: 
-    canContain: 
-    cantContain: 
+    mustContain:
+    - num: 7
+      check: 0
+    - num: 8
+      check: 0
+    - num: 9
+      check: 0
+    cantContain:
+    - num: 1
+      check: 0
+    - num: 2
+      check: 0
+    - num: 3
+      check: 0
   personBeingJudged: 0
   codeToCheck: 
   peopleToJudge:
@@ -529,6 +493,7 @@ MonoBehaviour:
   - code: 070000000800000009000000
   - code: 060000000400000005000000
   - code: 020000000300000001000000
+  seed: IDUNNOWHATTODO
   codeText: {fileID: 693944204}
   resultText: {fileID: 532992234}
   scoreText: {fileID: 1916105572}
@@ -1596,7 +1561,6 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 527e6bfdce42b3f4a8d91e60c3bd7cca, type: 2}
-  m_RootGameObject: {fileID: 176240351}
   m_IsPrefabParent: 0
 --- !u!1 &1610259270
 GameObject:
@@ -1685,25 +1649,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!224 &1612947785
+--- !u!224 &1612947785 stripped
 RectTransform:
-  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 224149350877158328, guid: 527e6bfdce42b3f4a8d91e60c3bd7cca,
     type: 2}
   m_PrefabInternal: {fileID: 1606252338}
-  m_GameObject: {fileID: 176240351}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 741534762}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 25, y: -25}
-  m_SizeDelta: {x: 50, y: 50}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1916105570
 GameObject:
   m_ObjectHideFlags: 0
