@@ -78,6 +78,8 @@ public class scr_GamePlay : MonoBehaviour
 
         resultText.text = "";
 
+        GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>().Pulse();
+
         if (personBeingJudged < peopleToJudge.Count)
         {
             personBeingJudged++;
