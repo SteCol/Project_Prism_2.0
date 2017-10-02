@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 170167705}
   - component: {fileID: 170167704}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Image_Console
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -366,7 +366,7 @@ GameObject:
   - component: {fileID: 205072056}
   - component: {fileID: 205072055}
   m_Layer: 5
-  m_Name: Image (2)
+  m_Name: Image_Conveyorbelt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -597,7 +597,7 @@ MonoBehaviour:
       check: 0
     - num: 2
       check: 0
-    - num: 3
+    - num: 5
       check: 0
     cantContain:
     - num: 7
@@ -621,7 +621,7 @@ MonoBehaviour:
       check: 0
     - num: 2
       check: 0
-    - num: 3
+    - num: 5
       check: 0
   personBeingJudged: 0
   codeToCheck: 
@@ -1182,6 +1182,10 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1172239141345516, guid: 527e6bfdce42b3f4a8d91e60c3bd7cca, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 527e6bfdce42b3f4a8d91e60c3bd7cca, type: 2}
   m_IsPrefabParent: 0
@@ -1196,7 +1200,7 @@ GameObject:
   - component: {fileID: 1054631788}
   - component: {fileID: 1054631787}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Image_Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1405,6 +1409,7 @@ MonoBehaviour:
   container: {fileID: 1133062587}
   personPrefab: {fileID: 1172239141345516, guid: 527e6bfdce42b3f4a8d91e60c3bd7cca,
     type: 2}
+  machineHead: {fileID: 1470717327}
   toAnimate: []
   sprites:
   - {fileID: 21300000, guid: bbb25118df12e8843b83edc4347f6384, type: 3}
@@ -1688,7 +1693,7 @@ GameObject:
   - component: {fileID: 1470717330}
   - component: {fileID: 1470717329}
   m_Layer: 5
-  m_Name: Image (3)
+  m_Name: Image_MachineHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1709,7 +1714,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -13.152, y: 82}
+  m_AnchoredPosition: {x: -13.152, y: 101}
   m_SizeDelta: {x: 150.7, y: 331}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1470717329

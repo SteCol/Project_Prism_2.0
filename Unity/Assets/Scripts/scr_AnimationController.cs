@@ -7,6 +7,7 @@ public class scr_AnimationController : MonoBehaviour
 {
     public GameObject container;
     public GameObject personPrefab;
+    public GameObject machineHead;
     public List<GameObject> toAnimate;
     public List<Sprite> sprites;
 
@@ -37,6 +38,17 @@ public class scr_AnimationController : MonoBehaviour
     public IEnumerator iSlideForward(GameObject _g)
     {
         cont = false;
+
+        Vector3 headStartPos = machineHead.transform.position;
+
+        //Move Machinehead Up
+        for (float i = 0.0f; i < 1.0f; i = i + 0.01f) {
+            float yPos = Mathf.Lerp(headStartPos.y, headStartPos.y + (Screen.height/3), i);
+            machineHead.GetComponent<RectTransform>().position = new Vector3(headStartPos.x, yPos, headStartPos.z);
+            yield return new WaitForEndOfFrame();
+        }
+
+        //Move Conveyor belt
         Vector3 startPos = _g.GetComponent<RectTransform>().position;
         for (float i = 0.0f; i < 1.0f; i = i + 0.01f)
         {
@@ -44,6 +56,15 @@ public class scr_AnimationController : MonoBehaviour
             _g.GetComponent<RectTransform>().position = new Vector3(xPos, _g.GetComponent<RectTransform>().position.y, _g.GetComponent<RectTransform>().position.z);
 
             yield return new WaitForEndOfFrame();
+        }
+
+        //Move Machinehead Down
+        for (float i = 0.0f; i < 1.0f; i = i + 0.01f)
+        {
+            float yPos = Mathf.Lerp(headStartPos.y + (Screen.height / 3), headStartPos.y, i);
+            machineHead.GetComponent<RectTransform>().position = new Vector3(headStartPos.x, yPos, headStartPos.z);
+            yield return new WaitForEndOfFrame();
+
         }
 
         cont = true;
