@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class scr_AnimationController : MonoBehaviour
 {
-
     public GameObject container;
     public GameObject personPrefab;
     public List<GameObject> toAnimate;
@@ -16,6 +15,8 @@ public class scr_AnimationController : MonoBehaviour
 
     void Start()
     {
+        print(Screen.width);
+        gapSize = (Screen.width / 834) * 100;
         cont = true;
 
         for (int i = 0; i < 15; i++)
