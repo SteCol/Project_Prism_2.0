@@ -38,19 +38,20 @@ public class scr_AnimationController : MonoBehaviour
     public IEnumerator iSlideForward(GameObject _g)
     {
         cont = false;
+        float animTime = 0.5f;
 
         Vector3 headStartPos = machineHead.transform.position;
 
         //Move Machinehead Up
-        for (float i = 0.0f; i < 1.0f; i = i + 0.01f) {
-            float yPos = Mathf.Lerp(headStartPos.y, headStartPos.y + (Screen.height/3), i);
-            machineHead.GetComponent<RectTransform>().position = new Vector3(headStartPos.x, yPos, headStartPos.z);
-            yield return new WaitForEndOfFrame();
-        }
+        //for (float i = 0.0f; i < 1.0f; i+= animTime * Time.deltaTime) {
+        //    float yPos = Mathf.Lerp(headStartPos.y, headStartPos.y + (Screen.height/3), i);
+        //    machineHead.GetComponent<RectTransform>().position = new Vector3(headStartPos.x, yPos, headStartPos.z);
+        //    yield return new WaitForEndOfFrame();
+        //}
 
         //Move Conveyor belt
         Vector3 startPos = _g.GetComponent<RectTransform>().position;
-        for (float i = 0.0f; i < 1.0f; i = i + 0.01f)
+        for (float i = 0.0f; i < 1.0f; i += animTime * Time.deltaTime)
         {
             float xPos = Mathf.Lerp(startPos.x, (float)(startPos.x + gapSize), i);
             _g.GetComponent<RectTransform>().position = new Vector3(xPos, _g.GetComponent<RectTransform>().position.y, _g.GetComponent<RectTransform>().position.z);
@@ -59,13 +60,13 @@ public class scr_AnimationController : MonoBehaviour
         }
 
         //Move Machinehead Down
-        for (float i = 0.0f; i < 1.0f; i = i + 0.01f)
-        {
-            float yPos = Mathf.Lerp(headStartPos.y + (Screen.height / 3), headStartPos.y, i);
-            machineHead.GetComponent<RectTransform>().position = new Vector3(headStartPos.x, yPos, headStartPos.z);
-            yield return new WaitForEndOfFrame();
+        //for (float i = 0.0f; i < 1.0f; i += animTime * Time.deltaTime)
+        //{
+        //    float yPos = Mathf.Lerp(headStartPos.y + (Screen.height / 3), headStartPos.y, i);
+        //    machineHead.GetComponent<RectTransform>().position = new Vector3(headStartPos.x, yPos, headStartPos.z);
+        //    yield return new WaitForEndOfFrame();
 
-        }
+        //}
 
         cont = true;
         yield return null;
