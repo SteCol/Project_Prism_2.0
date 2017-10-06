@@ -21,12 +21,12 @@ public class scr_AnimationController : MonoBehaviour
         cont = true;
 
         for (int i = 0; i < 15; i++)
-            PlaceNewPerson(-2);
+            PlaceNewPerson(-6);
     }
 
     public void Pulse()
     {
-        PlaceNewPerson(-2);
+        PlaceNewPerson(-6);
         GameObject tempObj = toAnimate[0];
         toAnimate.RemoveAt(0);
         //Destroy(tempObj);
