@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/*
+    NOTE:
+
+    Make is way easier and work backwards: pick a correct button, then generate a code based on that button, and only check if the player picked the right button.
+    - Updated to the better system.
+*/
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +16,7 @@ public class scr_GamePlay : MonoBehaviour
     public List<cls_Option> options;
     public int personBeingJudged;
     public List<int> codeToCheck;
-    public List<cls_Person> peopleToJudge;
+    public List<cls_PersonB> peopleToJudge;
     public string seed;
     public System.Random pseudoRandom;
 
@@ -23,37 +30,29 @@ public class scr_GamePlay : MonoBehaviour
     public float waitBetweenSteps = 0.0f;
     public bool cont;
     public bool busy;
-    public scr_AnimationController animCont;
+    public scr_AnimationController animationController;
 
 
     #region Buttons & Sizzle
 
     public void OrangeButton()
     {
-        if (animCont.cont)
+        if (animationController.cont)
             Action(1, 1);
-        //options[1].picked = true;
-        ////scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
-        //animCont.SetSprite(6, animCont.sprites[1]);
-        //CheckPerson(peopleToJudge[personBeingJudged]);
     }
 
     public void BlueButton()
     {
-        if (animCont.cont)
+        if (animationController.cont)
             Action(0, 2);
     }
 
     public void DiscardButton()
     {
-        if (animCont.cont)
+        if (animationController.cont)
         {
-
-            //options[2].picked = true;
             resultText.text = "DISCARDED";
-
-            //scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
-            animCont.SetSprite(6, animCont.sprites[3], 2.0f);
+            animationController.SetSprite(6, animationController.sprites[3], 2.0f);
             CheckPerson(peopleToJudge[personBeingJudged]);
         }
     }
@@ -61,7 +60,7 @@ public class scr_GamePlay : MonoBehaviour
     public void Action(int _optionToSet, int _spriteToShow)
     {
         options[_optionToSet].picked = true;
-        animCont.SetSprite(6, animCont.sprites[_spriteToShow]);
+        animationController.SetSprite(6, animationController.sprites[_spriteToShow]);
         CheckPerson(peopleToJudge[personBeingJudged]);
     }
     #endregion
@@ -78,27 +77,19 @@ public class scr_GamePlay : MonoBehaviour
 
         cont = false;
 
-        ClearPeople();
-        GeneratePeople();
+        //Empty the list to make random people, or manually set codes in the inspector.
+        if (peopleToJudge.Count == 0)
+        {
+            ClearPeople();
+            GeneratePeople();
+        }
     }
 
     public void Start()
     {
-
-        scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
+        animationController = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
 
         //Starting the first loop.
-        /*
-        scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
-
-        print("GameStart");
-        codeToCheck = peopleToJudge[personBeingJudged].code;
-        print("NEW PERSON: " + makeString(codeToCheck));
-        DrawCode(codeToCheck);
-        codeText.text = makeString(codeToCheck);
-        scoreText.text = score.ToString();
-        */
-
         StartCoroutine(iGameLoop());
     }
 
@@ -107,12 +98,12 @@ public class scr_GamePlay : MonoBehaviour
     {
         resultText.text = "";
 
-        GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>().Pulse();
+        animationController.Pulse();
         yield return new WaitForEndOfFrame();
 
         DrawCode(new List<int>());
 
-        yield return new WaitUntil(() => GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>().cont == true);
+        yield return new WaitUntil(() => animationController.cont == true);
 
         if (personBeingJudged < peopleToJudge.Count)
         {
@@ -138,33 +129,14 @@ public class scr_GamePlay : MonoBehaviour
         yield return null;
     }
 
-    //public void NextPerson()
-    //{
-    //    if (personBeingJudged < peopleToJudge.Count)
-    //    {
-    //        personBeingJudged++;
-    //        codeToCheck.Clear();
-    //        codeToCheck = peopleToJudge[personBeingJudged].code;
-    //        print("NEW PERSON: " + makeString(codeToCheck));
-    //        DrawCode(codeToCheck);
-    //        codeText.text = makeString(codeToCheck);
-    //    }
-    //    else
-    //        print("Game End");
-    //}
-
-    public void CheckPerson(cls_Person _person)
+    public void CheckPerson(cls_PersonB _person)
     {
-        scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
-
         resultText.text = "";
 
         foreach (cls_Option opt in options)
         {
-            //animCont.SetSprite(6, animCont.sprites[3]);
 
-            print("Checking If " + opt.optionName + " is Correct");
-            if (compareLists(opt.mustContain, codeToCheck) == opt.mustContain.Count && compareLists(opt.cantContain, codeToCheck) == 0)
+            if (_person.option == opt.option)
             {
                 print("Right Answer was " + opt.optionName);
                 resultText.text = "The correct answer was " + opt.optionName;
@@ -173,22 +145,13 @@ public class scr_GamePlay : MonoBehaviour
                 {
                     score++;
                     opt.picked = false;
-                    //animCont.SetSprite(6, opt.sprite);
                 }
-
-                break;
-            }
-            else
-            {
-                opt.picked = false;
-                print(opt.optionName + " was wrong");
             }
         }
 
         print("Score is now  " + score);
         scoreText.text = score.ToString();
         cont = true;
-        //NextPerson();
     }
 
     public int compareLists(List<cls_Symbol> _listA, List<int> _listB)
@@ -241,21 +204,60 @@ public class scr_GamePlay : MonoBehaviour
     {
         for (int i = 0; i < 50; i++)
         {
-            int answer = pseudoRandom.Next(0, 2);
+            enum_Options answer = (enum_Options)pseudoRandom.Next(0, 3);
             print("Generated " + i + " " + answer + ".");
+
+            //Generate a code
             List<int> tempCode = new List<int>();
 
-            for (int j = 0; j < 6; j++)
-            {
-                if (answer == 0)
-                    tempCode.Add(pseudoRandom.Next(1, 6));
+            //Amount of symbols per person.
+            //for (int j = 0; j < 6; j++)
+            //{
+            //    if (answer == 0)
+            //        tempCode.Add(pseudoRandom.Next(1, 6));
 
-                if (answer == 1)
-                    tempCode.Add(pseudoRandom.Next(4, 10));
+            //    if (answer == 1)
+            //        tempCode.Add(pseudoRandom.Next(4, 10));
+            //}
+
+            int amountOfSymbols = 6;
+
+            //Add Random Codes
+            for (int j = 0; j < amountOfSymbols/2; j++)
+                tempCode.Add(pseudoRandom.Next(4, 6));
+
+            //Add Color Codes
+            if (answer == enum_Options.Blue)
+                for (int j = 1; j <= 3; j++)
+                    tempCode.Add(j);
+
+            if (answer == enum_Options.Orange)
+                for (int j = 7; j <= 9; j++)
+                    tempCode.Add(j);
+
+            if (answer == enum_Options.Discard) {
+                tempCode.Add(pseudoRandom.Next(0,3));
+                tempCode.Add(pseudoRandom.Next(0,9));
+                tempCode.Add(pseudoRandom.Next(7,9));
             }
 
-            peopleToJudge.Add(new cls_Person(tempCode));
+            //Scramble the code
+            print("TEMPCODE" +  makeString(tempCode));
+
+            for (int j = 0; j < amountOfSymbols; j++)
+                ChangeListPlace(tempCode, pseudoRandom.Next(0, tempCode.Count), pseudoRandom.Next(0, tempCode.Count));
+
+            peopleToJudge.Add(new cls_PersonB(answer, tempCode));
         }
+    }
+
+    void ChangeListPlace(List<int> _list, int _indexToMove, int _indexToBeMoved)
+    {
+        int valueA = _list[_indexToMove];
+        int valueB = _list[_indexToBeMoved];
+
+        _list[_indexToBeMoved] = valueA;
+        _list[_indexToMove] = valueB;
     }
 
     public void DrawCode(List<int> _code)
@@ -283,14 +285,36 @@ public class cls_Person
 }
 
 [System.Serializable]
+public class cls_PersonB
+{
+    public enum_Options option;
+    public List<int> code;
+
+    public cls_PersonB(enum_Options _option, List<int> _code)
+    {
+        code = _code;
+        option = _option;
+    }
+}
+
+public enum enum_Options
+{
+    Orange = 1,
+    Blue = 0,
+    Discard = 2
+}
+
+[System.Serializable]
 public class cls_Option
 {
     public string optionName;
-    public Sprite sprite;
+    public enum_Options option;
+
+    //public Sprite sprite;
     public bool picked;
-    public List<cls_Symbol> mustContain;
+    //public List<cls_Symbol> mustContain;
     //public List<cls_Symbol> canContain;
-    public List<cls_Symbol> cantContain;
+    //public List<cls_Symbol> cantContain;
 }
 
 [System.Serializable]

@@ -809,6 +809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   options:
   - optionName: Blue
+    option: 0
     sprite: {fileID: 21300000, guid: 78c092e12d6f61d4f8fbcf95c2ccf7d5, type: 3}
     picked: 0
     mustContain:
@@ -826,6 +827,7 @@ MonoBehaviour:
     - num: 9
       check: 0
   - optionName: Orange
+    option: 1
     sprite: {fileID: 21300000, guid: 98545101fd4a0c94eaa9783c6aac0208, type: 3}
     picked: 0
     mustContain:
@@ -842,15 +844,16 @@ MonoBehaviour:
       check: 0
     - num: 5
       check: 0
+  - optionName: Discard
+    option: 2
+    sprite: {fileID: 21300000, guid: 98545101fd4a0c94eaa9783c6aac0208, type: 3}
+    picked: 0
+    mustContain: []
+    cantContain: []
   personBeingJudged: 0
   codeToCheck: 
-  peopleToJudge:
-  - code: 010000000200000003000000
-  - code: 040000000500000006000000
-  - code: 070000000800000009000000
-  - code: 060000000400000005000000
-  - code: 020000000300000001000000
-  seed: IDUNNOWHATTODO
+  peopleToJudge: []
+  seed: AAAARRRARARAARAR
   codeText: {fileID: 693944204}
   resultText: {fileID: 532992234}
   scoreText: {fileID: 1916105572}
@@ -858,7 +861,7 @@ MonoBehaviour:
   waitBetweenSteps: 0
   cont: 0
   busy: 0
-  animCont: {fileID: 1133062591}
+  animationController: {fileID: 0}
 --- !u!4 &428484585
 Transform:
   m_ObjectHideFlags: 0
