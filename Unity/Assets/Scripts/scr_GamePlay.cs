@@ -124,11 +124,9 @@ public class scr_GamePlay : MonoBehaviour
         }
         else {
             int amountOfSecondsToWait = 5;
-            string endGameText = "Thank you for playing. Restarting in " + amountOfSecondsToWait + " seconds.";
-
-            for (int i = 0; i < amountOfSecondsToWait; i++){
-                endGameText = endGameText + ".";
-                resultText.text = endGameText;
+            for (int i = amountOfSecondsToWait; i > 0; i--)
+            {
+                resultText.text = "Thank you for playing, restarting game in " + i + " seconds.";
                 yield return new WaitForSeconds(1.0f);
             }
             SceneManager.LoadScene(0);
@@ -145,6 +143,19 @@ public class scr_GamePlay : MonoBehaviour
 
         StartCoroutine(iGameLoop());
 
+        yield return null;
+    }
+
+    public IEnumerator iQuitJob() {
+        DrawCode(new List<int>());
+
+        int amountOfSecondsToWait = 5;
+        for (int i = amountOfSecondsToWait; i > 0; i--)
+        {
+            resultText.text = "Quitting job in " + i + " seconds.";
+            yield return new WaitForSeconds(1.0f);
+        }
+        SceneManager.LoadScene(0);
         yield return null;
     }
 
@@ -293,6 +304,7 @@ public class scr_GamePlay : MonoBehaviour
         foreach (int i in _code)
         {
             GameObject symbolClone = Instantiate(_Storage.Storage().imagePrefab, _Storage.Storage().symbolPanel.transform);
+            symbolClone.transform.localScale = new Vector3(1, 1, 1);
             symbolClone.GetComponentInChildren<Image>().sprite = _Storage.GetSymbols(i - 1);
         }
     }
