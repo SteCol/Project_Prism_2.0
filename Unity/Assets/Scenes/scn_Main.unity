@@ -810,46 +810,13 @@ MonoBehaviour:
   options:
   - optionName: Blue
     option: 0
-    sprite: {fileID: 21300000, guid: 78c092e12d6f61d4f8fbcf95c2ccf7d5, type: 3}
     picked: 0
-    mustContain:
-    - num: 1
-      check: 0
-    - num: 2
-      check: 0
-    - num: 5
-      check: 0
-    cantContain:
-    - num: 7
-      check: 0
-    - num: 8
-      check: 0
-    - num: 9
-      check: 0
   - optionName: Orange
     option: 1
-    sprite: {fileID: 21300000, guid: 98545101fd4a0c94eaa9783c6aac0208, type: 3}
     picked: 0
-    mustContain:
-    - num: 7
-      check: 0
-    - num: 8
-      check: 0
-    - num: 9
-      check: 0
-    cantContain:
-    - num: 1
-      check: 0
-    - num: 2
-      check: 0
-    - num: 5
-      check: 0
   - optionName: Discard
     option: 2
-    sprite: {fileID: 21300000, guid: 98545101fd4a0c94eaa9783c6aac0208, type: 3}
     picked: 0
-    mustContain: []
-    cantContain: []
   personBeingJudged: 0
   codeToCheck: 
   peopleToJudge: []
@@ -887,18 +854,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   symbols:
-  - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 21300000, guid: bba32d61efdc37c4e91f76cd2e69f235, type: 3}
+  - {fileID: 21300000, guid: 19af7d878d0bd98438c5462fa6cad76d, type: 3}
+  - {fileID: 21300000, guid: 0f09bd1f1ca2a664f98a0dde6ccacc82, type: 3}
+  - {fileID: 21300000, guid: 4176337769fe6ac4e830a41df3f9cf90, type: 3}
+  - {fileID: 21300000, guid: 1ab9e4b9d8e7ef84888ac72668f495c1, type: 3}
+  - {fileID: 21300000, guid: 3b8dd009a31175640a30b2e9cdfda5b4, type: 3}
+  - {fileID: 21300000, guid: 21527fe5b4be85149a7a5f9f6c793962, type: 3}
+  - {fileID: 21300000, guid: 39fff2cdf0253c646a0c5368292886d5, type: 3}
+  - {fileID: 21300000, guid: cdefafa7250d7064794e7234a0754f1c, type: 3}
   imagePrefab: {fileID: 1172239141345516, guid: 527e6bfdce42b3f4a8d91e60c3bd7cca,
     type: 2}
   symbolPanel: {fileID: 741534761}
+  codePanel: {fileID: 0}
 --- !u!114 &428484587
 MonoBehaviour:
   m_ObjectHideFlags: 0
