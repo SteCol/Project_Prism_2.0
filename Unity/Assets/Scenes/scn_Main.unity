@@ -2521,7 +2521,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 78c092e12d6f61d4f8fbcf95c2ccf7d5, type: 3}
   - {fileID: 21300000, guid: da343ea6d323d384f932653225918882, type: 3}
   cont: 1
-  gapSize: 250
+  gapSize: 500
 --- !u!1 &1140903364
 GameObject:
   m_ObjectHideFlags: 0
