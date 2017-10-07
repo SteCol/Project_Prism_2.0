@@ -99,4 +99,10 @@ public class scr_AnimationController : MonoBehaviour
     {
         toAnimate[_i].GetComponent<Image>().sprite = _sprite;
     }
+
+    public void SetSprite(int _i, Sprite _sprite, float _schale)
+    {
+        toAnimate[_i].GetComponent<Image>().sprite = _sprite;
+        toAnimate[_i].GetComponent<RectTransform>().localScale = new Vector3(_schale, _schale, _schale);
+    }
 }

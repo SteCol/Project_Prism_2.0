@@ -858,6 +858,7 @@ MonoBehaviour:
   waitBetweenSteps: 0
   cont: 0
   busy: 0
+  animCont: {fileID: 1133062591}
 --- !u!4 &428484585
 Transform:
   m_ObjectHideFlags: 0

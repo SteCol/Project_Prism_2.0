@@ -10,7 +10,6 @@ public class scr_Menu : MonoBehaviour {
 
     public GameObject rulesPanel, quitJob; 
 
-
     public void QuitJob() {
         quitJob.SetActive(true);
     }

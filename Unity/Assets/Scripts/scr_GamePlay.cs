@@ -23,38 +23,46 @@ public class scr_GamePlay : MonoBehaviour
     public float waitBetweenSteps = 0.0f;
     public bool cont;
     public bool busy;
-    scr_AnimationController animCont ;
+    public scr_AnimationController animCont;
 
 
     #region Buttons & Sizzle
 
     public void OrangeButton()
     {
-            options[1].picked = true;
-        scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
-
-        animCont.SetSprite(6, animCont.sprites[1]);
-
-            CheckPerson(peopleToJudge[personBeingJudged]);
+        if (animCont.cont)
+            Action(1, 1);
+        //options[1].picked = true;
+        ////scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
+        //animCont.SetSprite(6, animCont.sprites[1]);
+        //CheckPerson(peopleToJudge[personBeingJudged]);
     }
 
     public void BlueButton()
     {
-            options[0].picked = true;
-
-            scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
-            animCont.SetSprite(6, animCont.sprites[2]);
-            CheckPerson(peopleToJudge[personBeingJudged]);
+        if (animCont.cont)
+            Action(0, 2);
     }
 
     public void DiscardButton()
     {
+        if (animCont.cont)
+        {
+
             //options[2].picked = true;
             resultText.text = "DISCARDED";
 
-            scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
-            animCont.SetSprite(6, animCont.sprites[3]);
+            //scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
+            animCont.SetSprite(6, animCont.sprites[3], 2.0f);
             CheckPerson(peopleToJudge[personBeingJudged]);
+        }
+    }
+
+    public void Action(int _optionToSet, int _spriteToShow)
+    {
+        options[_optionToSet].picked = true;
+        animCont.SetSprite(6, animCont.sprites[_spriteToShow]);
+        CheckPerson(peopleToJudge[personBeingJudged]);
     }
     #endregion
 
@@ -76,6 +84,11 @@ public class scr_GamePlay : MonoBehaviour
 
     public void Start()
     {
+
+        scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
+
+        //Starting the first loop.
+        /*
         scr_AnimationController animCont = GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>();
 
         print("GameStart");
@@ -84,13 +97,14 @@ public class scr_GamePlay : MonoBehaviour
         DrawCode(codeToCheck);
         codeText.text = makeString(codeToCheck);
         scoreText.text = score.ToString();
+        */
 
         StartCoroutine(iGameLoop());
     }
 
+    //The main gameplay loop.
     IEnumerator iGameLoop()
     {
-
         resultText.text = "";
 
         GameObject.Find("Panel_LineOfPeople").GetComponent<scr_AnimationController>().Pulse();
