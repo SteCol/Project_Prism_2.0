@@ -39,19 +39,13 @@ public class scr_GamePlay : MonoBehaviour
     public void OrangeButton()
     {
         if (animationController.cont)
-        {
-            resultMessage = "ERROR: ORANGE NOT APPLICABLE";
             Action(1, 1);
-        }
     }
 
     public void BlueButton()
     {
         if (animationController.cont)
-        {
-            resultMessage = "ERROR: BLUE NOT APPLICABLE";
             Action(0, 2);
-        }
     }
 
     public void DiscardButton()
@@ -59,7 +53,6 @@ public class scr_GamePlay : MonoBehaviour
         if (animationController.cont)
         {
             //resultText.text = "DISCARDED";
-            resultMessage = "ERROR: REJECT NOT APPLICABLE";
 
             options[2].picked = true;
             //animationController.SetSprite(6, animationController.sprites[3], 2.0f);
@@ -106,7 +99,6 @@ public class scr_GamePlay : MonoBehaviour
     //The main gameplay loop.
     IEnumerator iGameLoop()
     {
-
         animationController.Pulse(); //Start animatin'
 
         yield return new WaitForEndOfFrame();
@@ -160,6 +152,7 @@ public class scr_GamePlay : MonoBehaviour
     public void CheckPerson(cls_PersonB _person)
     {
         resultText.text = "";
+        resultText.color = Color.red;
         resultMessage = "ERROR";
 
         animationController.SetSprite(6, animationController.sprites[3], 2.0f);
@@ -171,6 +164,7 @@ public class scr_GamePlay : MonoBehaviour
                 if (opt.picked)
                 {
                     score++;
+                    resultText.color = Color.white;
                     resultMessage = "Good job, you picked " + opt.optionName;
                     animationController.SetSprite(6, opt.sprite, 1.0f);
                     break;
