@@ -51,6 +51,8 @@ public class scr_GamePlay : MonoBehaviour
         if (animationController.cont)
         {
             resultText.text = "DISCARDED";
+
+            options[2].picked = true;
             animationController.SetSprite(6, animationController.sprites[3], 2.0f);
             CheckPerson(peopleToJudge[personBeingJudged]);
         }
