@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class scr_GamePlay : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class scr_GamePlay : MonoBehaviour
     public bool cont;
     public bool busy;
     public scr_AnimationController animationController;
+    public string resultMessage;
 
     #region Buttons & Sizzle
 
@@ -50,10 +52,10 @@ public class scr_GamePlay : MonoBehaviour
     {
         if (animationController.cont)
         {
-            resultText.text = "DISCARDED";
+            //resultText.text = "DISCARDED";
 
             options[2].picked = true;
-            animationController.SetSprite(6, animationController.sprites[3], 2.0f);
+            //animationController.SetSprite(6, animationController.sprites[3], 2.0f);
             CheckPerson(peopleToJudge[personBeingJudged]);
         }
     }
@@ -61,7 +63,7 @@ public class scr_GamePlay : MonoBehaviour
     public void Action(int _optionToSet, int _spriteToShow)
     {
         options[_optionToSet].picked = true;
-        animationController.SetSprite(6, animationController.sprites[_spriteToShow]);
+        //animationController.SetSprite(6, animationController.sprites[_spriteToShow]);
         CheckPerson(peopleToJudge[personBeingJudged]);
     }
     #endregion
@@ -97,57 +99,79 @@ public class scr_GamePlay : MonoBehaviour
     //The main gameplay loop.
     IEnumerator iGameLoop()
     {
-        resultText.text = "";
+        animationController.Pulse(); //Start animatin'
 
-        animationController.Pulse();
         yield return new WaitForEndOfFrame();
 
-        DrawCode(new List<int>());
+        DrawCode(new List<int>()); //Clear the code by drawing an empty list.
+        resultText.text = resultMessage; //display the message while the loop/animation is playing.
 
-        yield return new WaitUntil(() => animationController.cont == true);
+        yield return new WaitUntil(() => animationController.cont == true); //Wait untill the animation has finished
+
+        resultText.text = ""; //Clear the message
+
+        //Insert the new person.
+
+        personBeingJudged++; //Get the next person
 
         if (personBeingJudged < peopleToJudge.Count)
         {
-            personBeingJudged++;
-            codeToCheck.Clear();
-            codeToCheck = peopleToJudge[personBeingJudged].code;
+            codeToCheck.Clear(); //Clear the code old
+            codeToCheck = peopleToJudge[personBeingJudged].code; //Insert the new code
             print("NEW PERSON: " + makeString(codeToCheck));
-            DrawCode(codeToCheck);
+            DrawCode(codeToCheck); //Draw the new code
             codeText.text = makeString(codeToCheck);
         }
-        else
-            print("Game End");
+        else {
+            int amountOfSecondsToWait = 5;
+            string endGameText = "Thank you for playing. Restarting in " + amountOfSecondsToWait + " seconds.";
+
+            for (int i = 0; i < amountOfSecondsToWait; i++){
+                endGameText = endGameText + ".";
+                resultText.text = endGameText;
+                yield return new WaitForSeconds(1.0f);
+            }
+            SceneManager.LoadScene(0);
+        }
 
         yield return new WaitUntil(() => cont == true);
 
-        //yield return new WaitForSeconds(waitBetweenSteps);
+        yield return new WaitForSeconds(waitBetweenSteps);
 
         cont = false;
 
         yield return new WaitForSeconds(waitBetweenSteps);
+        resultText.text = "";
+
         StartCoroutine(iGameLoop());
 
         yield return null;
     }
 
+    //After a choice is made, check if it's the right choice
     public void CheckPerson(cls_PersonB _person)
     {
         resultText.text = "";
+        resultText.color = Color.red;
+        resultMessage = "ERROR";
+
+        animationController.SetSprite(6, animationController.sprites[3], 2.0f);
 
         foreach (cls_Option opt in options)
         {
-
             if (_person.option == opt.option)
             {
-                print("Right Answer was " + opt.optionName);
-                resultText.text = "The correct answer was " + opt.optionName;
-
                 if (opt.picked)
                 {
                     score++;
-                    opt.picked = false;
+                    resultText.color = Color.white;
+                    resultMessage = "Good job, you picked " + opt.optionName;
+                    animationController.SetSprite(6, opt.sprite, 1.0f);
+                    break;
                 }
             }
+
+            opt.picked = false;
         }
 
         print("Score is now  " + score);
@@ -236,7 +260,7 @@ public class scr_GamePlay : MonoBehaviour
                 for (int j = 7; j <= 9; j++)
                     tempCode.Add(j);
 
-            if (answer == enum_Options.Discard) {
+            if (answer == enum_Options.Reject) {
                 tempCode.Add(pseudoRandom.Next(0,3));
                 tempCode.Add(pseudoRandom.Next(0,9));
                 tempCode.Add(pseudoRandom.Next(7,9));
@@ -302,7 +326,7 @@ public enum enum_Options
 {
     Orange = 1,
     Blue = 0,
-    Discard = 2
+    Reject = 2
 }
 
 [System.Serializable]
@@ -310,6 +334,7 @@ public class cls_Option
 {
     public string optionName;
     public enum_Options option;
+    public Sprite sprite;
 
     //public Sprite sprite;
     public bool picked;
