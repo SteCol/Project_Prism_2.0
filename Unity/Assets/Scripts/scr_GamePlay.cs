@@ -51,17 +51,14 @@ public class scr_GamePlay : MonoBehaviour
     public void DiscardButton()
     {
         if (animationController.cont)
-        {
-            //resultText.text = "DISCARDED";
-
-            options[2].picked = true;
-            //animationController.SetSprite(6, animationController.sprites[3], 2.0f);
-            CheckPerson(peopleToJudge[personBeingJudged]);
-        }
+            Action(2, 2);
     }
 
     public void Action(int _optionToSet, int _spriteToShow)
     {
+        foreach (cls_Option o in options)
+            o.picked = false;
+
         options[_optionToSet].picked = true;
         //animationController.SetSprite(6, animationController.sprites[_spriteToShow]);
         CheckPerson(peopleToJudge[personBeingJudged]);
@@ -99,11 +96,13 @@ public class scr_GamePlay : MonoBehaviour
     //The main gameplay loop.
     IEnumerator iGameLoop()
     {
-        animationController.Pulse(); //Start animatin'
+        //Start animatin'
+        animationController.Pulse(); 
 
         yield return new WaitForEndOfFrame();
 
-        DrawCode(new List<int>()); //Clear the code by drawing an empty list.
+        //Clear the code by drawing an empty list.
+        DrawCode(new List<int>()); 
         resultText.text = resultMessage; //display the message while the loop/animation is playing.
 
         yield return new WaitUntil(() => animationController.cont == true); //Wait untill the animation has finished
@@ -162,12 +161,15 @@ public class scr_GamePlay : MonoBehaviour
     //After a choice is made, check if it's the right choice
     public void CheckPerson(cls_PersonB _person)
     {
+        //Reset all the things.
         resultText.text = "";
+
+        //Prepare for the wrong aswer.
         resultText.color = Color.red;
         resultMessage = "ERROR";
-
         animationController.SetSprite(6, animationController.sprites[3], 2.0f);
 
+        //Check each option
         foreach (cls_Option opt in options)
         {
             if (_person.option == opt.option)
@@ -177,12 +179,13 @@ public class scr_GamePlay : MonoBehaviour
                     score++;
                     resultText.color = Color.white;
                     resultMessage = "Good job, you picked " + opt.optionName;
-                    animationController.SetSprite(6, opt.sprite, 1.0f);
+                    if (opt.option == enum_Options.Reject)
+                        animationController.SetSprite(6, opt.sprite, 2.0f);
+                    else
+                        animationController.SetSprite(6, opt.sprite, 1.0f);
                     break;
                 }
             }
-
-            opt.picked = false;
         }
 
         print("Score is now  " + score);
